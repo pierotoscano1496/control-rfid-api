@@ -1,0 +1,19 @@
+{
+  "name": "control-rfid-api",
+  "version": "1.0.0",
+  "description": "REST API para el control de lector RFID",
+  "main": "index.js",
+  "scripts": {
+    "test": "test-rfid",
+    "dev": "nodemon index.js"
+  },
+  "author": "Piero",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
