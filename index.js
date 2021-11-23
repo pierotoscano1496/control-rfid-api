@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 require('./connection');
 const Tag = require('./models/Tag');
+const Ingreso = require('./models/Ingreso');
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
@@ -31,12 +32,36 @@ app.post('/api/register-tag', async (req, res) => {
     const tag = new Tag({
         number: tagNumber
     });
+
     try {
         let tagSaved = await tag.save();
         console.log(tagSaved);
         res.send(tagSaved);
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error while saving tag');
+        res.status(500).send('Error al guardar el tag');
     }
+});
+
+app.post('/api/registrar-ingreso', async (req, res) => {
+    const ingreso = new Ingreso({
+        fecha: req.body.fecha,
+        hora: req.body.hora,
+        tag: req.body.tag,
+        usuario: req.body.usuario
+    });
+
+    try {
+        let ingresoSaved = await ingreso.save();
+        console.log(ingresoSaved);
+        res.send(ingresoSaved);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al guardar el ingreso');
+    }
+});
+
+app.get('/api/ingresos/:fechaInicio/:fechaFin', async (req, res) => {
+    const ingresos = await Ingreso.find({ fecha: { $gte: req.query, fechaInicio, $lte: req.query.fechaFin } }).exec().then(resp => resp);
+    res.send(ingresos);
 });
